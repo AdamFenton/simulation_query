@@ -4,7 +4,8 @@ import pandas as pd
 import uuid
 from pprint import pprint
 
-
+column_names = ['UUID', 'star_mass', 'disc_mass', 'disc_radius', 'r_inner', 'p_index', 'q_index', 'tmax',
+            'artvisc', 'rhocrit1', 'rhocrit2', 'rhocrit3', 'gamma1', 'gamma2', 'gamma3', 'resolution','path']
 def is_valid_uuid(value):
     try:
         uuid.UUID(value)
@@ -68,8 +69,7 @@ def lookup_other(quantity,value):
     sftp_client = client.open_sftp()
     with sftp_client.open('/net/europa2/work/afenton/Documents/SPH_simulations/simulation_database.txt') as file:
         df = pd.read_csv(file,sep=' ',header=None)
-        df.columns=['UUID', 'star_mass', 'disc_mass', 'disc_radius', 'r_inner', 'p_index', 'q_index', 'tmax',
-                    'artvisc', 'rhocrit1', 'rhocrit2', 'rhocrit3', 'gamma1', 'gamma2', 'gamma3', 'resolution','path']
+        df.columns=column_names
 
 
     selected = df.loc[df[quantity] == value]
@@ -86,7 +86,7 @@ def lookup_other(quantity,value):
 def draw_GUI():
 
     def redirector(inputStr):
-        textbox.insert(INSERT, inputStr)
+        textbox1.insert(INSERT, inputStr)
 
 
     sys.stdout.write = redirector
@@ -137,10 +137,15 @@ def draw_GUI():
     #
     #
     #
-    textbox=Text(ws,font=('Arial', 18),height=21,width=50,fg='white')
+    textbox1=Text(ws,font=('Arial', 18),height=21,width=55,fg='white')
+    textbox2=Text(ws,font=('Arial', 18),height=21,width=15,fg='white')
+    textbox2.insert(INSERT,'Available Queries\n\n')
+
+    textbox2.insert(INSERT, '\n'.join(column_names))
     btn.pack(pady=15)
     #
-    textbox.pack()
+    textbox1.pack(side=LEFT,padx=5)
+    textbox2.pack(side=RIGHT,padx=5)
     #
     #
     #
