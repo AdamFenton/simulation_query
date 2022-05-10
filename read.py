@@ -4,7 +4,7 @@ import pandas as pd
 from pprint import pprint
 
 
-def lookup(UUID):
+def lookup_UUID(UUID):
     '''
     Use Paramiko to retrieve the entire 'show version' output.
     '''
@@ -12,7 +12,7 @@ def lookup(UUID):
 
     client = paramiko.SSHClient()
     client.load_system_host_keys()
-    client.connect('HOST',username='USER',password='PASSWORD')
+    client.connect('stargate.uclan.ac.uk',username='afenton',password='Hercules7728')
     sftp_client = client.open_sftp()
     with sftp_client.open('/net/europa2/work/afenton/Documents/SPH_simulations/simulation_database.txt') as file:
         df = pd.read_csv(file,sep=' ',header=None)
@@ -46,6 +46,27 @@ tmax = %s Code Units \ntmax = %s Years \nArtifical Viscosity = %s \nrhocrit1 = %
     return returned_string
 
 
+def lookup_other(label,value):
+    '''
+    Use Paramiko to retrieve the entire 'show version' output.
+    '''
+
+
+    client = paramiko.SSHClient()
+    client.load_system_host_keys()
+    client.connect('stargate.uclan.ac.uk',username='afenton',password='Hercules7728')
+    sftp_client = client.open_sftp()
+    with sftp_client.open('/net/europa2/work/afenton/Documents/SPH_simulations/simulation_database.txt') as file:
+        df = pd.read_csv(file,sep=' ',header=None)
+        df.columns=['UUID', 'star_mass', 'disc_mass', 'disc_radius', 'r_inner', 'p_index', 'q_index', 'tmax',
+                    'artvisc', 'rhocrit1', 'rhocrit2', 'rhocrit3', 'gamma1', 'gamma2', 'gamma3', 'resolution','path']
+
+
+    selected = df.loc[df[label] == value]
+
+
+    return selected['UUID'].values
+
 
 
 
@@ -67,19 +88,26 @@ def draw_GUI():
 
 
 
-    simulation_UUID = Entry(ws,width=50,font=('Arial', 24))
+    query = Entry(ws,width=50,font=('Arial', 24))
+    # if query.get() == '********-****-****-****-************':
+    #     command = lambda : print(lookup_UUID(query.get()))
+    #
+    # else:
+    #     continue
+        # label = query.get().split(" ")[0]
+        # value = query.get().split(" ")[1]
+        # command = lambda : print(lookup_other(label,value))
 
-
-    simulation_UUID_lbl = Label(
+    query_lbl = Label(
     ws,
-    text='Simulation UUID',
+    text='Query',
     bg='black',
     fg='white',
     font=('Arial', 15)
     )
 
-    simulation_UUID_lbl.pack()
-    simulation_UUID.pack()
+    query_lbl.pack()
+    query.pack()
 
 
 
@@ -90,7 +118,7 @@ def draw_GUI():
     bg='black',
     height=5,
     font=('Arial', 24),
-    command=lambda : print(lookup(simulation_UUID.get()))
+    command=print('test')
     )
 
 
