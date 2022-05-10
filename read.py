@@ -1,7 +1,17 @@
 import paramiko
 from tkinter import *
 import pandas as pd
+import uuid
 from pprint import pprint
+
+
+def is_valid_uuid(value):
+    try:
+        uuid.UUID(value)
+
+        return True
+    except ValueError:
+        return False
 
 
 def lookup_UUID(UUID):
@@ -12,7 +22,7 @@ def lookup_UUID(UUID):
 
     client = paramiko.SSHClient()
     client.load_system_host_keys()
-    client.connect('stargate.uclan.ac.uk',username='afenton',password='Hercules7728')
+    client.connect('HOST',username='NAME',password='PASSWORD')
     sftp_client = client.open_sftp()
     with sftp_client.open('/net/europa2/work/afenton/Documents/SPH_simulations/simulation_database.txt') as file:
         df = pd.read_csv(file,sep=' ',header=None)
@@ -46,7 +56,7 @@ tmax = %s Code Units \ntmax = %s Years \nArtifical Viscosity = %s \nrhocrit1 = %
     return returned_string
 
 
-def lookup_other(label,value):
+def lookup_other(quantity,value):
     '''
     Use Paramiko to retrieve the entire 'show version' output.
     '''
@@ -54,7 +64,7 @@ def lookup_other(label,value):
 
     client = paramiko.SSHClient()
     client.load_system_host_keys()
-    client.connect('stargate.uclan.ac.uk',username='afenton',password='Hercules7728')
+    client.connect('HOST',username='NAME',password='PASSWORD')
     sftp_client = client.open_sftp()
     with sftp_client.open('/net/europa2/work/afenton/Documents/SPH_simulations/simulation_database.txt') as file:
         df = pd.read_csv(file,sep=' ',header=None)
@@ -62,11 +72,10 @@ def lookup_other(label,value):
                     'artvisc', 'rhocrit1', 'rhocrit2', 'rhocrit3', 'gamma1', 'gamma2', 'gamma3', 'resolution','path']
 
 
-    selected = df.loc[df[label] == value]
+    selected = df.loc[df[quantity] == value]
 
 
     return selected['UUID'].values
-
 
 
 
@@ -89,15 +98,20 @@ def draw_GUI():
 
 
     query = Entry(ws,width=50,font=('Arial', 24))
-    # if query.get() == '********-****-****-****-************':
-    #     command = lambda : print(lookup_UUID(query.get()))
-    #
-    # else:
-    #     continue
-        # label = query.get().split(" ")[0]
-        # value = query.get().split(" ")[1]
-        # command = lambda : print(lookup_other(label,value))
 
+    def sort_query(query):
+        if is_valid_uuid(query.get()) == True:
+            return lookup_UUID(query.get())
+        elif is_valid_uuid(query.get()) == False :
+            quantity = query.get().split(" ")[0]
+            value = query.get().split(" ")[1]
+            print("Simulations matching request:")
+            return lookup_other(str(quantity),float(value))
+
+            # print(lookup_other(str(quantity),float(value)))
+
+
+    #
     query_lbl = Label(
     ws,
     text='Query',
@@ -105,12 +119,12 @@ def draw_GUI():
     fg='white',
     font=('Arial', 15)
     )
-
+    #
     query_lbl.pack()
     query.pack()
-
-
-
+    #
+    #
+    #
     btn = Button(
     ws,
     text='Request run paramaters',
@@ -118,21 +132,21 @@ def draw_GUI():
     bg='black',
     height=5,
     font=('Arial', 24),
-    command=print('test')
+    command=lambda: print(sort_query(query))
     )
-
-
-
+    #
+    #
+    #
     textbox=Text(ws,font=('Arial', 18),height=21,width=50,fg='white')
     btn.pack(pady=15)
-
+    #
     textbox.pack()
-
-
-
-
-
-
+    #
+    #
+    #
+    #
+    #
+    #
 
 
     ws.mainloop()
