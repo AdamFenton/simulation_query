@@ -4,9 +4,12 @@
 
 ### Additional functionality added 20220510, the ability to search for a quantity and a value and return the UUIDs that match 
 
+![](readme.gif)
 
-![Screenshot 2022-05-10 at 12 21 24](https://user-images.githubusercontent.com/54849364/167617611-12b4addc-af8d-448a-8d82-80f57f188de9.png)
-![Screenshot 2022-05-10 at 12 21 50](https://user-images.githubusercontent.com/54849364/167617609-94a6dc8d-92d5-4f39-bc31-5181365472dc.png)
-![Screenshot 2022-05-10 at 12 22 07](https://user-images.githubusercontent.com/54849364/167617593-920ad5ae-94ed-4d8f-af6b-819758a51649.png)
+The simulation database query system has three modes of working:
 
-
+  Method 1) The user wants to list the values of a specific quantity across all simulations.<br>
+  Method 2) The user wants to return the UUID numbers of the simulations that have a particular value assigned to a quantity<br>
+  Method 3) The user wants to return the full setup of a simulation with a given UUID
+  
+  
