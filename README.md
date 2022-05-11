@@ -1,5 +1,12 @@
 # simulation_query
 
-### A small python application utilising Tkinter for GUI interaction and Paramiko for SFTP to read a remote text file and, given a UUID number, return the initial conditions of the simulation with the matching UUID.<img width="912" alt="Screenshot 2022-05-09 at 15 01 54" src="https://user-images.githubusercontent.com/54849364/167427420-05b3f666-ab2b-412f-b2f8-ead01ae8bf3d.png">
-<img width="912" alt="Screenshot 2022-05-09 at 15 02 10" src="https://user-images.githubusercontent.com/54849364/167427433-4ef20d1e-f61a-4201-b289-bc580ea582a8.png">
-<img width="912" alt="Screenshot 2022-05-09 at 15 02 17" src="https://user-images.githubusercontent.com/54849364/167427447-e5a134e9-f7a0-41bd-ad14-05eeb6fc5756.png">
+### A small python application utilising Tkinter for GUI interaction and Paramiko for SFTP to read a remote text file and, given a UUID number, return the initial conditions of the simulation with the matching UUID.
+
+### Additional functionality added 20220510, the ability to search for a quantity and a value and return the UUIDs that match 
+
+
+![Screenshot 2022-05-10 at 12 21 24](https://user-images.githubusercontent.com/54849364/167617611-12b4addc-af8d-448a-8d82-80f57f188de9.png)
+![Screenshot 2022-05-10 at 12 21 50](https://user-images.githubusercontent.com/54849364/167617609-94a6dc8d-92d5-4f39-bc31-5181365472dc.png)
+![Screenshot 2022-05-10 at 12 22 07](https://user-images.githubusercontent.com/54849364/167617593-920ad5ae-94ed-4d8f-af6b-819758a51649.png)
+
+
